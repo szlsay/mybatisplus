@@ -20,6 +20,16 @@ class DemoApplicationTests {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Test
+    void selectByAge() {
+        System.out.println(userMapper.selectByAge(28));
+    }
+
+    @Test
+    void selectByName() {
+        System.out.println(userMapper.selectByName("A"));
+    }
     /**
      * 插入一条记录
      *
