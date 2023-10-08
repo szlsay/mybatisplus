@@ -1,12 +1,18 @@
 package com.example.demo;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
+import com.baomidou.mybatisplus.core.toolkit.Constants;
+import com.baomidou.mybatisplus.core.toolkit.ExceptionUtils;
 import com.example.demo.entity.User;
 import com.example.demo.mapper.UserMapper;
+import org.apache.ibatis.annotations.Param;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.io.Serializable;
 import java.util.*;
 
 @SpringBootTest
@@ -14,6 +20,54 @@ class DemoApplicationTests {
 
     @Autowired
     private UserMapper userMapper;
+    /**
+     * 插入一条记录
+     *
+     * entity 实体对象
+     */
+//    int insert(T entity);
+    @Test
+    void insert() {
+        User user = new User();
+        user.setName("yy");
+        System.out.println(userMapper.insert(user));
+    }
+    /**
+     * 根据 ID 查询
+     * id 主键ID
+     */
+//    T selectById(Serializable id);
+    @Test
+    void selectById() {
+        User user = userMapper.selectById(1L);
+        System.out.println(user);
+    }
+
+    /**
+     * 查询（根据ID 批量查询）
+     * idList 主键ID列表(不能为 null 以及 empty)
+     */
+//    List<T> selectBatchIds(@Param(Constants.COLL) Collection<? extends Serializable> idList);
+    @Test
+    void selectBatchIds() {
+        List<Long> idList = new ArrayList<>();
+        idList.add(1L);
+        idList.add(2L);
+        List<User> users = userMapper.selectBatchIds(idList);
+        System.out.println(users);
+    }
+    /**
+     * 查询（根据 columnMap 条件）
+     * columnMap 表字段 map 对象
+     */
+//    List<T> selectByMap(@Param(Constants.COLUMN_MAP) Map<String, Object> columnMap);
+    @Test
+    void selectByMap() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("name", "Tom");
+        List<User> users = userMapper.selectByMap(map);
+        System.out.println(users);
+    }
 
     /**
      * 根据 ID 修改
