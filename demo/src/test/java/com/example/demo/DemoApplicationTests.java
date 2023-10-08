@@ -102,7 +102,7 @@ class DemoApplicationTests {
     void updateById() {
         User user = new User();
         user.setId(10L);
-        user.setName("A");
+        user.setName("AB");
         int number = userMapper.updateById(user);
         System.out.println(number);
     }
