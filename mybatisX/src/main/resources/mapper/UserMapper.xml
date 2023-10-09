@@ -20,5 +20,37 @@
         email,update_time,create_time,
         version,deleted
     </sql>
+    <select id="selectByName" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from user
+        <where>
+            <if test="name != null and name != ''">
+                name = #{name,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+    <select id="selectAllOrderById" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from user
+        order by id
+    </select>
+    <select id="selectAllOrderByById" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from user
+        order by
+    </select>
+    <select id="searchOneByAge" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from user
+        <where>
+            <if test="age != null">
+                age = #{age,jdbcType=NUMERIC}
+            </if>
+        </where>
+    </select>
 
 </mapper>
