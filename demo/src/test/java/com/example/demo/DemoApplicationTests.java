@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
 import com.baomidou.mybatisplus.core.toolkit.ExceptionUtils;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.entity.User;
 import com.example.demo.mapper.UserMapper;
 import com.example.demo.service.UserService;
@@ -24,6 +25,59 @@ class DemoApplicationTests {
 
     @Autowired
     private UserService userService;
+
+    @Test
+    void paginationInner(){
+        //简单分页模型
+        //current – 当前页
+        //size – 每页显示条数
+        //底层逻辑就是使用Limit分页的公式 (index-1)*pageSize
+        Page<User> page = new Page<>(2,3);
+        userMapper.selectPage(page,null);
+
+        //获取记录
+        List<User> users = page.getRecords();
+        users.forEach(user -> System.out.println(user));
+        System.out.println(page.getPages());//获取总页数
+        System.out.println(page.getTotal());//获取总数据量
+        System.out.println(page.hasNext());//是否有下一页
+        System.out.println(page.hasPrevious());//是否有上一页
+    }
+
+    //单线程成功测试
+    @Test
+    void mybatisOptimisticLocker(){
+        //查询用户信息（查出version）
+        User user = userMapper.selectById(3L);
+        //修改用户信息
+        user.setName("abc");
+        user.setAge(10);
+        //执行更新
+        userMapper.updateById(user);
+    }
+
+    //模仿多线程争抢资源
+    @Test
+    void mybatisOptimisticLocker2(){
+        //----------------------线程1-----------------------
+        //查询用户信息（查出version）
+        User user1 = userMapper.selectById(3L);
+        //修改用户信息
+        user1.setName("abc");
+        user1.setAge(10);
+        //----------------------线程2-----------------------
+        //查询用户信息（查出version）
+        User user2 = userMapper.selectById(3L);
+        //修改用户信息
+        user2.setName("efg");
+        user2.setAge(18);
+
+        //先执行线程2更新
+        userMapper.updateById(user2);
+
+        //执行线程1更新
+        userMapper.updateById(user1);
+    }
 
     @Test
     void insertMore() {

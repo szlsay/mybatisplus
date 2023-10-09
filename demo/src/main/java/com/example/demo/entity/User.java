@@ -1,9 +1,6 @@
 package com.example.demo.entity;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,6 +16,8 @@ public class User {
     private String name;
     private Integer age;
     private String email;
+    @Version//乐观锁注解
+    private Integer version;
 
     //插入操作更新字段策略
     @TableField(fill = FieldFill.INSERT)
