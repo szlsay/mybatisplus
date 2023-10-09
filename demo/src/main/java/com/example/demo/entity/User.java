@@ -18,6 +18,8 @@ public class User {
     private String email;
     @Version//乐观锁注解
     private Integer version;
+    @TableLogic(value = "0",delval = "1")//逻辑删除（这两个属性值可以不设置）
+    private Integer deleted;
 
     //插入操作更新字段策略
     @TableField(fill = FieldFill.INSERT)

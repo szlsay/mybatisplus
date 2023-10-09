@@ -27,6 +27,10 @@ class DemoApplicationTests {
     private UserService userService;
 
     @Test
+    void deleteLogic() {
+        System.out.println(userMapper.deleteById(1L));
+    }
+    @Test
     void paginationInner(){
         //简单分页模型
         //current – 当前页
